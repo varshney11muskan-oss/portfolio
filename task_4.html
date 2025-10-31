@@ -1,0 +1,307 @@
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Daily Grind - Artisan Coffee & Fresh Pastries</title>
+    <!-- Load Tailwind CSS --><script src="https://cdn.tailwindcss.com"></script>
+    <!-- Configure Tailwind for custom colors and font --><script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'coffee-dark': '#4E312E',
+                        'coffee-accent': '#C69C6D',
+                        'cream-light': '#F5F5F5',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <!-- Load Inter font (Google Fonts) --><link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <style>
+        /* Custom scroll behavior for navigation */
+        html {
+            scroll-behavior: smooth;
+            font-family: 'Inter', sans-serif;
+        }
+        /* Mobile menu specific styling */
+        #mobile-menu {
+            transition: transform 0.3s ease-in-out;
+            transform: translateY(-100%);
+        }
+        #mobile-menu.open {
+            transform: translateY(0);
+        }
+        /* Style for the subtle mock map background */
+        .map-mock {
+            background-color: #e9e9e9;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Crect x='0' y='0' width='100' height='100' fill='none'/%3E%3Cline x1='0' y1='0' x2='100' y2='100' stroke='rgba(0,0,0,0.1)' stroke-width='1'/%3E%3Cline x1='0' y1='100' x2='100' y2='0' stroke='rgba(0,0,0,0.1)' stroke-width='1'/%3E%3C/svg%3E");
+            background-size: 100px 100px;
+        }
+    </style>
+</head>
+<body class="bg-cream-light text-coffee-dark">
+
+    <!-- Sticky Navigation Bar --><header class="sticky top-0 z-50 shadow-md bg-white/95 backdrop-blur-sm">
+        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+            <!-- Logo/Brand --><a href="#home" class="text-2xl font-black tracking-wider text-coffee-dark uppercase">
+                Daily <span class="text-coffee-accent">Grind</span>
+            </a>
+
+            <!-- Desktop Menu (Hidden on Mobile) --><div class="hidden md:flex space-x-8 font-semibold">
+                <a href="#menu" class="hover:text-coffee-accent transition duration-150">Menu</a>
+                <a href="#about" class="hover:text-coffee-accent transition duration-150">Our Story</a>
+                <a href="#contact" class="hover:text-coffee-accent transition duration-150">Visit Us</a>
+                <a href="#catering" class="text-coffee-accent border-2 border-coffee-accent px-4 py-1 rounded-full hover:bg-coffee-accent hover:text-white transition duration-200">Order Now</a>
+            </div>
+
+            <!-- Mobile Menu Button (Hamburger) --><button id="mobile-menu-button" class="md:hidden p-2 rounded-lg text-coffee-dark hover:bg-cream-light focus:outline-none focus:ring-2 focus:ring-coffee-accent">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
+        </nav>
+    </header>
+
+    <!-- Mobile Menu Drawer (Starts off-screen) --><div id="mobile-menu" class="md:hidden fixed w-full top-16 bg-white/95 backdrop-blur-sm shadow-xl z-40 p-6 flex flex-col items-center space-y-4 text-lg font-semibold border-t border-coffee-accent">
+        <a href="#menu" class="w-full text-center py-2 hover:bg-cream-light rounded-lg">Menu</a>
+        <a href="#about" class="w-full text-center py-2 hover:bg-cream-light rounded-lg">Our Story</a>
+        <a href="#contact" class="w-full text-center py-2 hover:bg-cream-light rounded-lg">Visit Us</a>
+        <a href="#catering" class="w-full text-center py-2 bg-coffee-accent text-white rounded-lg">Order Now</a>
+    </div>
+
+    <main>
+        <!-- Hero Section --><section id="home" class="relative overflow-hidden pt-20 pb-28 md:pt-40 md:pb-56 bg-coffee-dark text-white">
+            <!-- Background Image --><div class="absolute inset-0 bg-cover bg-center opacity-20" 
+                 style="background-image: url('https://images.unsplash.com/photo-1511920170033-f8396924c348?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');">
+            </div>
+
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+                <h1 class="text-4xl sm:text-6xl lg:text-7xl font-extrabold mb-4 tracking-tight leading-tight">
+                    Your Daily Dose of <span class="text-coffee-accent">Artisan Fuel</span>
+                </h1>
+                <p class="text-lg sm:text-xl text-cream-light max-w-3xl mx-auto mb-8">
+                    From single-origin beans to freshly baked sourdough, we grind, brew, and bake every morning just for you.
+                </p>
+                <a href="#menu" class="inline-block bg-coffee-accent text-coffee-dark font-bold py-3 px-8 rounded-full text-lg shadow-xl hover:shadow-2xl hover:bg-opacity-90 transition duration-300 transform hover:scale-[1.02]">
+                    Explore Our Menu
+                </a>
+            </div>
+        </section>
+
+        <!-- Menu/Specials Section --><section id="menu" class="py-16 md:py-24 bg-cream-light">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-4xl font-bold text-center mb-4">Today's <span class="text-coffee-accent">Specials</span></h2>
+                <p class="text-center text-lg mb-12 max-w-2xl mx-auto text-gray-600">Hand-crafted drinks and baked goods made with passion and the finest ingredients.</p>
+
+                <!-- Responsive 3-Column Grid for Menu Items --><div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+                    <!-- Item 1: Seasonal Latte --><div class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition duration-300 border border-coffee-accent/20">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-xl font-bold">Pumpkin Spice Latte</h3>
+                            <span class="text-2xl text-coffee-accent">☕</span>
+                        </div>
+                        <p class="text-gray-600 mb-4">Our signature fall favorite. Espresso, steamed milk, real pumpkin puree, and a dash of nutmeg.</p>
+                        <div class="flex justify-between items-center pt-2 border-t border-gray-100">
+                            <span class="text-2xl font-extrabold text-coffee-dark">$5.99</span>
+                            <button class="text-sm bg-coffee-dark text-white py-2 px-4 rounded-full hover:bg-coffee-accent transition duration-200">Add to Cart</button>
+                        </div>
+                    </div>
+
+                    <!-- Item 2: Croissant --><div class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition duration-300 border border-coffee-accent/20">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-xl font-bold">Almond Croissant</h3>
+                            <span class="text-2xl text-coffee-accent">🥐</span>
+                        </div>
+                        <p class="text-gray-600 mb-4">Flaky, buttery perfection. Twice-baked with rich almond frangipane and topped with sliced almonds.</p>
+                        <div class="flex justify-between items-center pt-2 border-t border-gray-100">
+                            <span class="text-2xl font-extrabold text-coffee-dark">$4.50</span>
+                            <button class="text-sm bg-coffee-dark text-white py-2 px-4 rounded-full hover:bg-coffee-accent transition duration-200">Add to Cart</button>
+                        </div>
+                    </div>
+
+                    <!-- Item 3: Nitro Cold Brew --><div class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition duration-300 border border-coffee-accent/20">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-xl font-bold">Nitro Cold Brew</h3>
+                            <span class="text-2xl text-coffee-accent">🧊</span>
+                        </div>
+                        <p class="text-gray-600 mb-4">Smooth, creamy, and highly caffeinated. Infused with nitrogen for a velvety texture.</p>
+                        <div class="flex justify-between items-center pt-2 border-t border-gray-100">
+                            <span class="text-2xl font-extrabold text-coffee-dark">$5.00</span>
+                            <button class="text-sm bg-coffee-dark text-white py-2 px-4 rounded-full hover:bg-coffee-accent transition duration-200">Add to Cart</button>
+                        </div>
+                    </div>
+                    
+                    <!-- NEW Item 4: Low Cost Classic Drip Coffee --><div class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition duration-300 border border-coffee-accent/20">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-xl font-bold">Classic Drip Coffee</h3>
+                            <span class="text-2xl text-coffee-accent">☕</span>
+                        </div>
+                        <p class="text-gray-600 mb-4">Our reliable, freshly brewed house blend. The perfect, low-cost daily essential to kickstart your morning.</p>
+                        <div class="flex justify-between items-center pt-2 border-t border-gray-100">
+                            <span class="text-2xl font-extrabold text-coffee-dark">$2.50</span>
+                            <button class="text-sm bg-coffee-dark text-white py-2 px-4 rounded-full hover:bg-coffee-accent transition duration-200">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center mt-12">
+                    <a href="#" class="inline-flex items-center font-semibold text-coffee-accent hover:text-coffee-dark transition duration-150">
+                        View Full Menu (PDF)
+                        <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Us Section --><section id="about" class="py-16 md:py-24 bg-coffee-dark text-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="lg:grid lg:grid-cols-2 lg:gap-12 items-center">
+                    <!-- Text Content --><div class="order-2 lg:order-1">
+                        <h2 class="text-4xl font-bold mb-4">Our <span class="text-coffee-accent">Story</span></h2>
+                        <p class="text-lg mb-6 text-cream-light">
+                            The Daily Grind was founded in 2020 by local artisan baker, Sarah Chen, with a simple mission: to elevate the everyday coffee experience. We believe that quality starts at the source. That's why we meticulously source fair-trade, single-origin beans and use only heritage grain flours for our baked goods.
+                        </p>
+                        <p class="text-lg mb-8 text-cream-light/80">
+                            Every item is prepared in-house, from the slow-fermented sourdough to the perfectly pulled espresso shots. We're more than just a café; we're a community hub built on the simple pleasures of good food and great company.
+                        </p>
+                        <a href="#contact" class="inline-block bg-white text-coffee-dark font-bold py-3 px-8 rounded-full shadow-xl hover:bg-gray-200 transition duration-300">
+                            Meet the Team
+                        </a>
+                    </div>
+                    
+                    <!-- Image Placeholder --><div class="order-1 lg:order-2 mt-10 lg:mt-0">
+                        <img src="https://placehold.co/600x400/C69C6D/4E312E?text=The+Daily+Grind+Interior" 
+                             alt="The Daily Grind shop interior with wooden tables and coffee machine" 
+                             class="w-full h-auto object-cover rounded-xl shadow-2xl border-4 border-coffee-accent"
+                             onerror="this.onerror=null; this.src='https://placehold.co/600x400/C69C6D/4E312E?text=Shop+Interior';">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact & Location Section --><section id="contact" class="py-16 md:py-24 bg-cream-light">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-4xl font-bold text-center mb-12">Visit <span class="text-coffee-accent">Us</span></h2>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                    
+                    <!-- Location / Map Mockup --><div class="p-6 rounded-xl shadow-2xl bg-white border border-coffee-accent/30">
+                        <h3 class="text-2xl font-semibold mb-4 text-coffee-dark">Find Our Location</h3>
+                        <div class="map-mock h-64 w-full rounded-lg overflow-hidden flex items-center justify-center mb-6">
+                            <span class="text-2xl font-bold text-gray-500">📍 Map Placeholder</span>
+                        </div>
+                        
+                        <div class="space-y-4">
+                            <div>
+                                <h4 class="font-bold text-lg text-coffee-accent">Address</h4>
+                                <p class="text-gray-700">123 Artisan Lane, Downtown Core, CA 90210</p>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg text-coffee-accent">Hours</h4>
+                                <p class="text-gray-700">Mon - Fri: 6:00 AM - 6:00 PM</p>
+                                <p class="text-gray-700">Sat - Sun: 7:00 AM - 5:00 PM</p>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg text-coffee-accent">Contact</h4>
+                                <p class="text-gray-700">Phone: (555) 123-GRND</p>
+                                <p class="text-gray-700">Email: hello@dailygrind.com</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Contact Form --><div class="p-6 rounded-xl shadow-2xl bg-coffee-dark text-white" id="catering">
+                        <h3 class="text-2xl font-semibold mb-6 text-coffee-accent">Send Us a Message</h3>
+                        
+                        <form class="space-y-4">
+                            <div>
+                                <label for="name" class="block text-sm font-medium mb-1">Name</label>
+                                <input type="text" id="name" name="name" placeholder="Your Name" required
+                                       class="w-full px-4 py-2 text-coffee-dark bg-white rounded-lg border-none focus:ring-coffee-accent focus:ring-2">
+                            </div>
+                            <div>
+                                <label for="email" class="block text-sm font-medium mb-1">Email</label>
+                                <input type="email" id="email" name="email" placeholder="you@example.com" required
+                                       class="w-full px-4 py-2 text-coffee-dark bg-white rounded-lg border-none focus:ring-coffee-accent focus:ring-2">
+                            </div>
+                            <div>
+                                <label for="message" class="block text-sm font-medium mb-1">How can we help?</label>
+                                <textarea id="message" name="message" rows="4" placeholder="I'd like to inquire about catering..." required
+                                          class="w-full px-4 py-2 text-coffee-dark bg-white rounded-lg border-none focus:ring-coffee-accent focus:ring-2"></textarea>
+                            </div>
+                            <div>
+                                <button type="submit" 
+                                        class="w-full bg-coffee-accent text-coffee-dark font-bold py-3 rounded-lg shadow-md hover:bg-opacity-90 transition duration-300">
+                                    Submit Inquiry
+                                </button>
+                            </div>
+                        </form>
+
+                         <!-- Custom Modal for form submission success --><div id="status-message" class="hidden mt-4 p-4 rounded-lg text-center font-bold text-coffee-dark bg-green-200"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer --><footer class="bg-coffee-dark border-t border-coffee-accent/50 py-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-cream-light/80">
+            <div class="mb-4">
+                <a href="#home" class="text-2xl font-black tracking-wider text-coffee-accent uppercase">
+                    Daily <span class="text-white">Grind</span>
+                </a>
+            </div>
+            <p class="text-sm mb-4">&copy; 2024 The Daily Grind. All rights reserved.</p>
+            <div class="flex justify-center space-x-6">
+                <!-- Social Media Icons (SVGs for simplicity) --><a href="#" class="hover:text-coffee-accent transition duration-150">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.015 4.85.071 1.17.067 1.702.247 2.228.468.497.228.852.483 1.258.889.406.406.658.761.889 1.258.221.526.4.994.468 2.228.056 1.266.071 1.646.071 4.85s-.015 3.584-.071 4.85c-.067 1.17-.247 1.702-.468 2.228-.228.497-.483.852-.889 1.258-.406.406-.761.658-1.258.889-.526.221-.994.4-2.228.468-1.266.056-1.646.071-4.85.071s-3.584-.015-4.85-.071c-1.17-.067-1.702-.247-2.228-.468-.497-.228-.483-.852-.889-1.258-.406-.406-.761-.658-1.258-.889-.526-.221-.994-.4-2.228-.468-1.266-.056-1.646-.071-4.85-.071zm0-2.163c-3.259 0-3.666.015-4.949.071-1.488.085-2.228.322-2.857.581-.6.257-1.077.6-1.552 1.074s-.817.952-1.074 1.552c-.258.629-.496 1.369-.581 2.857-.056 1.283-.071 1.69-.071 4.949s.015 3.666.071 4.949c.085 1.488.322 2.228.581 2.857.257.6.6 1.077 1.074 1.552s.952.817 1.552 1.074c.629.258 1.369.496 2.857.581 1.283.056 1.69.071 4.949.071s3.666-.015 4.949-.071c1.488-.085 2.228-.322 2.857-.581.6-.257 1.077-.6 1.552-1.074s.817-.952 1.074-1.552c.258-.629.496-1.369.581-2.857.056-1.283.071-1.69.071-4.949s-.015-3.666-.071-4.949c-.085-1.488-.322-2.228-.581-2.857-.257-.6-.6-1.077-1.074-1.552s-.952-.817-1.552-1.074c-.629-.258-1.369-.496-2.857-.581-1.283-.056-1.69-.071-4.949-.071zm0 2.163c-.878 0-1.6.722-1.6 1.6s.722 1.6 1.6 1.6 1.6-.722 1.6-1.6-.722-1.6-1.6-1.6zM12 8c-2.206 0-4 1.794-4 4s1.794 4 4 4 4-1.794 4-4-1.794-4-4-4zm0 2c1.103 0 2 .897 2 2s-.897 2-2 2-2-.897-2-2 .897-2 2-2z"/></svg>
+                </a>
+                <a href="#" class="hover:text-coffee-accent transition duration-150">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M22.258 4.717c-.779.345-1.618.575-2.493.68-.898-.553-1.944-.89-3.078-.89-2.327 0-4.215 1.888-4.215 4.215 0 .33.037.65.107.962-3.504-.176-6.619-1.854-8.703-4.417-.36.62-.566 1.348-.566 2.115 0 1.464.745 2.76 1.88 3.524-.693-.022-1.345-.213-1.912-.527v.053c0 2.045 1.455 3.753 3.38 4.148-.354.095-.729.146-1.114.146-.273 0-.539-.026-.798-.076.536 1.678 2.086 2.903 3.924 2.936-1.442 1.13-3.256 1.805-5.234 1.805-.341 0-.678-.025-1.01-.06.745.47 1.62.748 2.56.748 3.07 0 4.757-2.54 4.757-4.757 0-.073-.002-.146-.005-.218.33-.298.618-.636.885-1.002z"/></svg>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript for Mobile Menu Functionality and Form Submission --><script>
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const navLinks = mobileMenu.querySelectorAll('a');
+
+        // Toggle mobile menu visibility
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('open');
+            // Change button icon if necessary (optional: not implemented here for brevity)
+        });
+
+        // Close mobile menu when a link is clicked (for smooth scrolling)
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.remove('open');
+            });
+        });
+
+        // Simple Form Submission Handler
+        const contactForm = document.querySelector('form');
+        const statusMessage = document.getElementById('status-message');
+
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault(); // Prevent default form submission
+
+            // Show a success message (instead of alert)
+            statusMessage.textContent = 'Thank you! Your message has been received. We will be in touch shortly.';
+            statusMessage.classList.remove('hidden');
+            
+            // Clear the form fields
+            this.reset();
+
+            // Hide the message after 5 seconds
+            setTimeout(() => {
+                statusMessage.classList.add('hidden');
+            }, 5000);
+        });
+    </script>
+</body>
+</html>
