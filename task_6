@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Blog (Local Storage CRUD)</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Custom Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary-dark': '#111827',
+                        'secondary-light': '#D1D5DB',
+                        'accent-blue': '#3B82F6',
+                        'accent-dark-blue': '#1D4ED8',
+                        'background-light': '#1F2937',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: theme('colors.primary-dark');
+            color: theme('colors.secondary-light');
+            min-height: 100vh;
+        }
+        .post-card {
+            transition: all 0.2s ease-in-out;
+        }
+        .post-card:hover {
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.2);
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-background-light py-4 shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h1 class="text-3xl font-extrabold text-white">My Personal Dev Blog</h1>
+            <p class="text-secondary-light/70 mt-1">Local Storage CRUD Demo</p>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div class="grid lg:grid-cols-3 gap-8">
+
+            <!-- 1. Post Creation/Editing Form (Create & Update) -->
+            <div class="lg:col-span-1 bg-background-light p-6 rounded-xl shadow-2xl h-fit sticky top-4">
+                <h2 id="form-title" class="text-2xl font-bold text-accent-blue mb-6">Create New Post</h2>
+                
+                <form id="post-form" class="space-y-4">
+                    <input type="hidden" id="post-id">
+
+                    <div>
+                        <label for="title" class="block text-sm font-medium text-secondary-light">Title</label>
+                        <input type="text" id="title" required placeholder="A catchy title for your post"
+                               class="mt-1 block w-full bg-primary-dark border border-gray-600 rounded-lg p-3 text-white placeholder-gray-400 focus:ring-accent-blue focus:border-accent-blue">
+                    </div>
+
+                    <div>
+                        <label for="content" class="block text-sm font-medium text-secondary-light">Content</label>
+                        <textarea id="content" rows="6" required placeholder="Start writing your thoughts here..."
+                                  class="mt-1 block w-full bg-primary-dark border border-gray-600 rounded-lg p-3 text-white placeholder-gray-400 focus:ring-accent-blue focus:border-accent-blue"></textarea>
+                    </div>
+
+                    <div id="form-actions" class="flex space-x-2">
+                        <button type="submit" id="submit-button"
+                                class="w-full flex justify-center py-3 px-4 rounded-lg text-white font-semibold bg-accent-blue hover:bg-accent-dark-blue transition duration-300">
+                            Publish Post
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- 2. Blog Post List (Read) -->
+            <div class="lg:col-span-2">
+                <h2 class="text-3xl font-bold text-white mb-6">Recent Posts</h2>
+                <div id="posts-container" class="space-y-6">
+                    <!-- Blog posts will be rendered here by JavaScript -->
+                    <p id="no-posts-message" class="text-secondary-light/50 italic hidden">No posts yet. Start writing your first post!</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Custom Notification Message -->
+        <div id="notification" class="fixed bottom-4 right-4 bg-green-600 text-white px-4 py-3 rounded-lg shadow-xl hidden transition-opacity duration-300 opacity-0">
+            Post saved successfully!
+        </div>
+    </main>
+
+    <script>
+        // Data storage key in Local Storage
+        const STORAGE_KEY = 'myDevBlogPosts';
+        const postsContainer = document.getElementById('posts-container');
+        const form = document.getElementById('post-form');
+        const postIdInput = document.getElementById('post-id');
+        const titleInput = document.getElementById('title');
+        const contentInput = document.getElementById('content');
+        const formTitle = document.getElementById('form-title');
+        const submitButton = document.getElementById('submit-button');
+        const notification = document.getElementById('notification');
+        const noPostsMessage = document.getElementById('no-posts-message');
+
+        // Utility to show notification
+        function showNotification(message) {
+            notification.textContent = message;
+            notification.classList.remove('hidden', 'opacity-0');
+            notification.classList.add('opacity-100');
+            setTimeout(() => {
+                notification.classList.remove('opacity-100');
+                notification.classList.add('opacity-0');
+                setTimeout(() => {
+                    notification.classList.add('hidden');
+                }, 300);
+            }, 3000);
+        }
+
+        // Get all posts from Local Storage
+        function getPosts() {
+            const postsJson = localStorage.getItem(STORAGE_KEY);
+            return postsJson ? JSON.parse(postsJson) : [];
+        }
+
+        // Save posts array back to Local Storage
+        function savePosts(posts) {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(posts));
+        }
+
+        // Render all posts (Read)
+        function renderPosts() {
+            const posts = getPosts().sort((a, b) => b.timestamp - a.timestamp); // Sort by newest first
+            postsContainer.innerHTML = '';
+
+            if (posts.length === 0) {
+                noPostsMessage.classList.remove('hidden');
+                return;
+            }
+            noPostsMessage.classList.add('hidden');
+
+            posts.forEach(post => {
+                const postElement = document.createElement('div');
+                postElement.id = `post-${post.id}`;
+                postElement.className = 'post-card bg-background-light p-6 rounded-xl border border-gray-700/50 shadow-md';
+                
+                // Format the timestamp for display
+                const date = new Date(post.timestamp).toLocaleDateString("en-US", {
+                    year: 'numeric', month: 'long', day: 'numeric'
+                });
+
+                postElement.innerHTML = `
+                    <h3 class="text-3xl font-bold text-white mb-2">${post.title}</h3>
+                    <p class="text-sm text-accent-blue/80 mb-4">Published on ${date}</p>
+                    <p class="text-secondary-light/80 mb-6 whitespace-pre-wrap">${post.content.substring(0, 300)}${post.content.length > 300 ? '...' : ''}</p>
+                    <div class="flex space-x-3">
+                        <button onclick="editPost('${post.id}')" class="flex items-center text-sm font-medium text-accent-blue hover:text-white transition duration-300">
+                            <i data-lucide="pencil" class="w-4 h-4 mr-1"></i> Edit
+                        </button>
+                        <button onclick="confirmDeletePost('${post.id}')" class="flex items-center text-sm font-medium text-red-500 hover:text-red-400 transition duration-300">
+                            <i data-lucide="trash-2" class="w-4 h-4 mr-1"></i> Delete
+                        </button>
+                    </div>
+                `;
+                postsContainer.appendChild(postElement);
+            });
+
+            // Re-initialize Lucide icons for the newly rendered elements
+            lucide.createIcons();
+        }
+
+        // Handle Create and Update operations
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const id = postIdInput.value;
+            const title = titleInput.value.trim();
+            const content = contentInput.value.trim();
+            const posts = getPosts();
+
+            if (id) {
+                // Update
+                const index = posts.findIndex(p => p.id === id);
+                if (index !== -1) {
+                    posts[index].title = title;
+                    posts[index].content = content;
+                    savePosts(posts);
+                    showNotification('Post updated successfully!');
+                }
+            } else {
+                // Create
+                const newPost = {
+                    id: crypto.randomUUID(),
+                    title: title,
+                    content: content,
+                    timestamp: Date.now()
+                };
+                posts.push(newPost);
+                savePosts(posts);
+                showNotification('Post created and published!');
+            }
+
+            resetForm();
+            renderPosts();
+        });
+
+        // Load post data into the form for editing (Update)
+        window.editPost = function(id) {
+            const posts = getPosts();
+            const post = posts.find(p => p.id === id);
+
+            if (post) {
+                postIdInput.value = post.id;
+                titleInput.value = post.title;
+                contentInput.value = post.content;
+                
+                formTitle.textContent = 'Edit Existing Post';
+                submitButton.textContent = 'Save Changes';
+
+                // Add Cancel button if not already present
+                if (!document.getElementById('cancel-button')) {
+                    const cancelButton = document.createElement('button');
+                    cancelButton.id = 'cancel-button';
+                    cancelButton.type = 'button';
+                    cancelButton.textContent = 'Cancel Edit';
+                    cancelButton.className = 'w-1/3 py-3 px-4 rounded-lg text-secondary-light font-semibold bg-gray-600 hover:bg-gray-700 transition duration-300';
+                    cancelButton.onclick = resetForm;
+                    document.getElementById('form-actions').prepend(cancelButton);
+                }
+
+                // Scroll to the top of the form
+                form.scrollIntoView({ behavior: 'smooth' });
+            }
+        };
+
+        // Confirm and Delete operation (Delete)
+        window.confirmDeletePost = function(id) {
+            // Using a custom modal style confirmation instead of alert()
+            const postElement = document.getElementById(`post-${id}`);
+            if (postElement) {
+                postElement.classList.add('border-red-500', 'ring-2', 'ring-red-500');
+            }
+
+            // Simple custom prompt structure (since modal UI is complex)
+            const isConfirmed = prompt("Are you sure you want to delete this post? Type 'DELETE' to confirm.");
+            
+            if (postElement) {
+                postElement.classList.remove('border-red-500', 'ring-2', 'ring-red-500');
+            }
+
+            if (isConfirmed === 'DELETE') {
+                deletePost(id);
+            }
+        };
+
+        function deletePost(id) {
+            let posts = getPosts();
+            posts = posts.filter(p => p.id !== id);
+            savePosts(posts);
+            renderPosts();
+            showNotification('Post deleted successfully!');
+            resetForm(); // Reset form in case the deleted post was being edited
+        }
+
+        // Reset the form and editing state
+        function resetForm() {
+            form.reset();
+            postIdInput.value = '';
+            formTitle.textContent = 'Create New Post';
+            submitButton.textContent = 'Publish Post';
+            
+            const cancelButton = document.getElementById('cancel-button');
+            if (cancelButton) {
+                cancelButton.remove();
+            }
+        }
+
+        // Initialize the app on load
+        window.onload = function() {
+            renderPosts();
+            // Create a small initial post if storage is empty
+            if (getPosts().length === 0) {
+                savePosts([{
+                    id: crypto.randomUUID(),
+                    title: "Welcome to the Blog!",
+                    content: "This is the first post created to demonstrate the CRUD functionality using your browser's Local Storage. You can create new posts using the form on the left, edit this post, or delete it entirely. All changes will persist locally, even after closing the browser tab!",
+                    timestamp: Date.now()
+                }]);
+                renderPosts();
+            }
+        };
+    </script>
+</body>
+</html>
